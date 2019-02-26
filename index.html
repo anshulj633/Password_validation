@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Password-Validation</title>
+  <style type="text/css">
+    .container {
+      margin: auto;
+      width: 25%;
+      padding: 30px;
+    }
+
+    td,th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    button {
+     border-radius: 5px;
+     background: #009eeb;
+     font-size: 0.8rem;
+     color: #ffffff;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Validation</h1>
+    <div>
+      <input type="text" id="pass" placeholder="Enter Password"></input>
+      <button onclick="test()">Check</button>
+      <br>
+    </div>
+    <a href="https://github.com/anshulj633/Password_validation">
+    Click here for the code..
+    </a>
+    <div>
+      <h3>Result</h3>
+      <table id="table" border="1px">
+        <tr>
+          <th>Password</th>
+          <th>Status</th>
+          <th>Message</th>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <script >
+    function check(pass)
+    {
+      var passLength= pass.length;
+      var msg = "";
+      var ststus;
+      var reg1 = /^(?=.*[a-z])/;
+      var reg2 = /^(?=.*[A-Z])/;
+      var reg3 = /^(?=.*[0-9])/;
+      var reg4 = /^(?=.*[*$_#=@])/;
+      var reg5 = /^(?!.*[%!)(])/;
+      if(passLength < 6)
+      {
+        return{
+        status: "failure",
+        msg: "Password must be at least 6 characters long"
+      };
+      }
+
+      if(passLength > 12)
+      {
+        return{
+        status: "failure",
+        msg: "Password must be at max 12 characters long"
+      };
+      }
+
+
+      if (!reg1.test(pass))
+      {
+        return {
+        status: "failure",
+         msg : "Password must contain at least one letter from [a-z]"
+        };
+      }
+
+      if (!reg2.test(pass))
+      {
+        return {
+        status: "failure",
+         msg : "Password must contain at least one letter from [A-Z]"
+        };
+      }
+
+      if (!reg3.test(pass))
+      {
+        return {
+        status: "failure",
+         msg : "Password must contain at least one letter from [0-9]"
+        };
+      }
+
+      if (!reg4.test(pass))
+      {
+        return {
+        status: "failure",
+         msg : "Password must contain at least one letter from [*$_#=@]"
+        };
+      }
+
+      if (!reg5.test(pass))
+      {
+        return {
+        status: "failure",
+         msg : "Password cannot contain %!)( "
+        };
+      }
+
+      return {
+        status: "Success",
+        msg: "Password is strong"
+      };
+
+
+    }
+    function test()
+    {
+      var pass = document.getElementById("pass").value;
+      //console.log(pass)
+      //console.log(typeof pass);
+      var passArray = pass.split(",");
+      var arrLength = passArray.length;
+      var table = document.getElementById("table");
+
+
+      for (var i = 0; i < arrLength; i++) {
+         var result = check(passArray[i]);
+         var status = result.status;
+         var msg = result.msg;
+         console.log(passArray[i])
+         console.log(status)
+         console.log(msg)
+
+
+         var row = document.createElement("tr");
+         var col1 = row.insertCell(0);
+         col1.innerHTML = passArray[i];
+
+         var col2 = row.insertCell(1);
+         col2.innerHTML = status;
+
+         var col3 = row.insertCell(2);
+         col3.innerHTML = msg;
+         
+         table.appendChild(row);
+      }
+
+    }
+
+
+  </script>
+ </body>
+</html>
